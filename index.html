@@ -2,22 +2,22 @@
 <html>
   <head>
     <link rel = 'stylesheet' href = 'style.css'>
-    <title>Blackjack JS edition</title>
+    <title>Blackjack JavaScript edition</title>
   </head>
 
   <body>
     <div id = 'main'>
-      <h1>Dealer's cards:</h1>
+      <h3>Dealer's cards:</h3>
         <ul id = 'dealerCards'>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li><img src = './cards/2C.gif' /></li>
+          <li><img src = './cards/2C.gif' /></li>
+          <li><img src = './cards/2C.gif' /></li>
           <li></li>
           <li></li>
         </ul>
 
 
-      <h1>Your cards:</h1>
+      <h3>Your cards:</h3>
         <ul id = 'yourCards'>
           <li></li>
           <li></li>
@@ -28,13 +28,13 @@
 
 
       <div id = 'divmoney'>
-        <h1>You have:</h1>
+        <h3>You have:</h3>
         <p id = 'moneyTotal'></p>
       </div>
 
       <div id = 'divbet'>
-        <h1>Your bet:<h1>
-        <input type = 'text' id = 'bet'>
+        <h3>Your bet:</h3>
+        <input type = 'text' id = 'bet'></input>
       </div>
 
     </div>
@@ -43,9 +43,9 @@
       <button type = 'button' id = 'hit'> Hit </button>
       <button type = 'button' id = 'stand'> Stand </button>
       <button type = 'button' id = 'new'> New Game </button>
-      <p>Welcome to Blackjack!</p>
+      <p id = 'statusMessage'>Welcome to Blackjack!</p>
     </div>
 
-    <script src = './blackjack.js' />
+    <script src = './blackjack.js'></script>
   </body>
 </html>
