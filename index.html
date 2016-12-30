@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel = 'stylesheet' href = 'style.css'>
+    <title>Blackjack JS edition</title>
+  </head>
+
+  <body>
+    <div id = 'main'>
+      <h1>Dealer's cards:</h1>
+        <ul id = 'dealerCards'>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+
+
+      <h1>Your cards:</h1>
+        <ul id = 'yourCards'>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+
+
+      <div id = 'divmoney'>
+        <h1>You have:</h1>
+        <p id = 'moneyTotal'></p>
+      </div>
+
+      <div id = 'divbet'>
+        <h1>Your bet:<h1>
+        <input type = 'text' id = 'bet'>
+      </div>
+
+    </div>
+
+    <div id = 'footer'>
+      <button type = 'button' id = 'hit'> Hit </button>
+      <button type = 'button' id = 'stand'> Stand </button>
+      <button type = 'button' id = 'new'> New Game </button>
+      <p>Welcome to Blackjack!</p>
+    </div>
+
+    <script src = './blackjack.js' />
+  </body>
+</html>

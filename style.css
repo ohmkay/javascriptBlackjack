@@ -1,0 +1,27 @@
+body {
+  background-color: #FF0090;
+}
+
+#main {
+  width: 70%;
+  margin: auto;
+  display: block;
+}
+
+#divmoney {
+  float: left;
+}
+
+#divbet{
+  float: right;
+}
+
+#dealerCards li, #yourCards li{
+  list-style-type: none;
+  display: inline;
+}
+
+#footer {
+  text-align: center;
+  clear: both;
+}
