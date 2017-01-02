@@ -16,7 +16,7 @@ function addCard(card) {
 	this.cards.push(card);
 }
 
-var player = { moneyTotal: 100, currentBet: 0, roundScore: 0, cards: []};
+var player = { moneyTotal: 100, currentBet: 0, roundScore: 0, cards: [] };
 var dealer = { roundScore: 0, cards:[] };
 
 player.addCard = addCard;

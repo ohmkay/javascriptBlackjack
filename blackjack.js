@@ -1,5 +1,5 @@
 //layout resource http://math.hws.edu/eck/cs271/js-work/Blackjack.html
-//github friend resource https://github.com/BlindPacemaker/Blackjack
+//github image resource https://github.com/BlindPacemaker/Blackjack
 
 function changeStatusMessage(message) {
 	var status = document.getElementById('statusMessage');
@@ -7,7 +7,7 @@ function changeStatusMessage(message) {
 }
 
 
-function setup() {
+function firstTimeSetup() {
   //initial total money set to 100
   var money = document.getElementById('moneyTotal');
   money.appendChild(document.createTextNode("100"));
@@ -19,25 +19,49 @@ function setup() {
   //set starting status message
   changeStatusMessage("Welcome to Blackjack! Press New Game to get Started.");
 
-  //initialize cards names into deck array
-  var suite = ['C', 'D', 'H', 'S'];
-  var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-  var deck = [];
 
-  for(var i = 0; i < rank.length; i++) {
-	  for(var j = 0; j < suite.length; j++) {
-		  deck.push(rank[i] + suite[j]);
-	  }
-  }
-
-  return deck;
 }
 
-function getRandomCard(deck) {
-	return deck.random;
+function intializeCards(deck) {
+	var suite = ['C', 'D', 'H', 'S'];
+	var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+	for(var i = 0; i < rank.length; i++) {
+
+		for(var j = 0; j < suite.length; j++) {
+
+			var name = cardName(rank[i], suite[j]);
+			
+			var card = { name: name };
+			//card.imagePath = imagePath;
+			console.log(card.imagePath());
+			deck.push(card);
+
+		}
+	}
 }
+
+
+function getRandomCardFromDeck() {
+	var returnedCard = this.cards[Math.floor(Math.random() * this.length)];
+	this.removeCard(returnedCard);
+	return returnedCard;
+}
+
+function removeCardFromDeck(card) {
+	const index = this.indexOf(card);
+    
+    if (index !== -1) {
+        this.splice(index, 1);
+    }
+}
+
 
 function dealPlayerCard() {
+
+	//console.log()
+	//var card = deck.getRandomCard();
+	//console.log(card.imagePath());
 
 	var cardSlots = document.getElementById('dealerCards');
 
@@ -50,19 +74,10 @@ function dealDealerCard(){
 
 function initialDeal() {
 	dealPlayerCard();
-	dealDealerCard();
-	dealPlayerCard();
-	dealDealerCard();
+	//dealDealerCard();
+	//dealPlayerCard();
+	//dealDealerCard();
 }
-
-
-
-var deck = setup();
-var playerCards, dealerCards = [];
-
-
+var deck = [];
+intializeCards(deck);
 initialDeal();
-
-player.addScore(5);
-
-console.log(player.roundScore);
