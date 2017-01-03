@@ -1,30 +1,57 @@
 //Player and Dealer class
 
-function clearScore() {
-	this.roundScore = 0;
+//************
+//Player Class
+//************
+class Player {
+
+	constructor (moneyTotal, currentBet, roundScore) {
+		this.moneyTotal = moneyTotal;
+		this.currentBet = currentBet;
+		this.roundScore = roundScore;
+		this.cards = [];
+	}
+
+	clearScore() {
+		return this.roundScore = 0;
+	}
+
+	clearCards() {
+		this.cards = [];
+	}
+
+	addScore(score) {
+		this.roundScore += score;
+	}
+
+	addCard(card) {
+		this.cards.push(card);
+	}
 }
 
-function clearCards() {
-	this.cards = [];
+//************
+//Dealer Class
+//************
+class Dealer {
+
+	constructor (roundScore) {
+		this.roundScore = roundScore;
+		this.cards = [];
+	}
+
+	clearScore() {
+		return this.roundScore = 0;
+	}
+
+	clearCards() {
+		this.cards = [];
+	}
+
+	addScore(score) {
+		this.roundScore += score;
+	}
+
+	addCard(card) {
+		this.cards.push(card);
+	}
 }
-
-function addScore(score) {
-	this.roundScore += score;
-}
-
-function addCard(card) {
-	this.cards.push(card);
-}
-
-var player = { moneyTotal: 100, currentBet: 0, roundScore: 0, cards: [] };
-var dealer = { roundScore: 0, cards:[] };
-
-player.addCard = addCard;
-player.clearCards = clearCards;
-player.clearScore = clearScore;
-player.addScore = addScore;
-
-dealer.addCard = addCard;
-dealer.addScore = addScore;
-dealer.clearScore = clearScore;
-dealer.clearCards = clearCards;

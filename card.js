@@ -7,6 +7,7 @@ class Card {
 	constructor (rank, suite) {
 		this.rank = rank;
 		this.suite = suite;
+
 		this.points = (function (rank) {
 			if(rank === 'J' || rank === 'Q' || rank === 'K') {
 				return 10;
@@ -28,4 +29,5 @@ class Card {
 			return name + '.gif';
 		})(name);
 	}
+	
 }
