@@ -30,7 +30,7 @@ function intializeCards(deck) {
 			var aCard = new Card(rank[i], suite[j]);
 
 			deck.push(aCard);
-			console.log(aCard.rank + " " + aCard.suite + " "  + " " + aCard.points);
+			console.log( aCard.points + " " + aCard.name + " " + aCard.imagePath);
 		}
 	}
 }
