@@ -19,7 +19,6 @@ function firstTimeSetup() {
   //set starting status message
   changeStatusMessage("Welcome to Blackjack! Press New Game to get Started.");
 
-
 }
 
 function intializeCards(deck) {
@@ -27,16 +26,11 @@ function intializeCards(deck) {
 	var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
 	for(var i = 0; i < rank.length; i++) {
-
 		for(var j = 0; j < suite.length; j++) {
+			var aCard = new Card(rank[i], suite[j]);
 
-			var name = cardName(rank[i], suite[j]);
-			
-			var card = { name: name };
-			//card.imagePath = imagePath;
-			console.log(card.imagePath());
-			deck.push(card);
-
+			deck.push(aCard);
+			console.log(aCard.rank + " " + aCard.suite + " "  + " " + aCard.points);
 		}
 	}
 }
