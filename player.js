@@ -13,7 +13,7 @@ class Player {
 	}
 
 	clearScore() {
-		return this.roundScore = 0;
+		this.roundScore = 0;
 	}
 
 	clearCards() {
@@ -40,7 +40,7 @@ class Dealer {
 	}
 
 	clearScore() {
-		return this.roundScore = 0;
+		this.roundScore = 0;
 	}
 
 	clearCards() {

@@ -5,9 +5,38 @@ var deck = [];
 var player = new Player();
 var dealer = new Dealer();
 
-function changeStatusMessage(message) {
+function changeStatusMessage(message1, message2) {
 	var status = document.getElementById('statusMessage');
-	status.innerHTML = message;
+	status.innerHTML = message1 + '<br />' + message2;
+}
+
+//remove all img src tags from player and dealer <li>s
+function clearAllHands() {
+
+	if(player.cards.length !== 0) {
+
+		var ulDealer = document.getElementById('dealerCards');
+		var cardSlotsDealer = ulDealer.querySelectorAll(":scope > li");
+		console.log(dealer.cards.length + " " + player.cards.length);
+		for(var i = 0; i < dealer.cards.length; i++) {
+			cardSlotsDealer[i].removeChild(cardSlotsDealer[i].childNodes[0]);
+		}
+
+	}
+
+	if(dealer.cards.length !== 0) {
+
+		var ulPlayer = document.getElementById('yourCards');
+		var cardSlotsPlayer = ulPlayer.querySelectorAll(":scope > li");
+		for(var i = 0; i < player.cards.length; i++) {
+			cardSlotsPlayer[i].removeChild(cardSlotsPlayer[i].childNodes[0]);
+		}
+
+	}
+
+	player.clearCards();
+	dealer.clearCards();
+
 }
 
 function firstTimeSetup() {
@@ -17,10 +46,19 @@ function firstTimeSetup() {
 
   //initial bet set to 10
   var bet = document.getElementById('bet');
-  bet.value = "10";
+  bet.value = 10;
 
   //set starting status message
-  changeStatusMessage("Welcome to Blackjack! Press New Game to get Started.");
+  changeStatusMessage("Welcome to Blackjack!", "Press New Game to get Started.");
+
+	//setup buttons
+	document.getElementById('new').onclick = initialDeal;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('hit').onclick = hitCard;
+	document.getElementById('stand').disabled = true;
+	document.getElementById('stand').onclick = stand;
+
+	//clearAllHands();
 }
 
 function intializeCards(deck) {
@@ -52,33 +90,118 @@ function removeCardFromDeck(card) {
     }
 }
 
-
-
 function dealPlayerCard() {
-	
 	var card  = getRandomCardFromDeck();
 	player.addCard(card);
 	player.addScore(card.points);
 
-	var img = document.createElement("img");
-	img.src = card.imagePath;
-
-	var cardSlots = document.getElementById('yourCards');
-	console.log(player.cards.length);
-	cardSlots.childNodes[player.cards.length].appendChild(img);
-
-
+	var ul = document.getElementById('yourCards');
+	var cardSlots = ul.querySelectorAll(":scope > li");
+	cardSlots[player.cards.length-1].appendChild(card.getCardImage());
 }
 
-function dealDealerCard(){
+function dealDealerCard() {
+	var card  = getRandomCardFromDeck();
+	dealer.addCard(card);
+	dealer.addScore(card.points);
 
+	var ul = document.getElementById('dealerCards');
+	var cardSlots = ul.querySelectorAll(":scope > li");
+	cardSlots[dealer.cards.length-1].appendChild(card.getCardImage());
+}
+
+function dealDealerBackCard() {
+	var img = document.createElement("img");
+	img.src = "./cards/back.gif";
+
+	var ul = document.getElementById('dealerCards');
+	var cardSlots = ul.querySelectorAll(":scope > li");
+	cardSlots[dealer.cards.length].appendChild(img);
+}
+
+function removeDealerBackCard() {
+	var ul = document.getElementById('dealerCards');
+	var cardSlots = ul.querySelectorAll(":scope > li");
+	cardSlots[dealer.cards.length].removeChild(
+										cardSlots[dealer.cards.length].childNodes[0]);
+
+	//console.log(cardSlots[dealer.cards.length].childNodes[0]);
+}
+
+function hitCard() {
+	dealPlayerCard();
+
+	if(player.roundScore > 21) {
+		changeStatusMessage("You went over 21!  Your Score: " + player.roundScore,
+												"CPU Score: " + dealer.roundScore);
+		youLose();
+	} else if(player.roundScore <= 21 && player.cards.length === 5) {
+		youWin();
+	} else {
+		changeStatusMessage("Current Score: " + player.roundScore,
+												"CPU Score: " + dealer.roundScore);
+	}
+}
+
+function stand() {
+	document.getElementById('hit').disabled = true;
+	document.getElementById('stand').disabled = true;
+
+	if(dealer.cards.length === 1){
+		removeDealerBackCard();
+	}
+
+	dealDealerCard();
+
+	if(dealer.roundScore < player.roundScore) {
+		stand();
+	} else if (dealer.roundScore > 21) {
+		youWin();
+	} else {
+		youLose();
+	}
+}
+
+function youWin() {
+	changeStatusMessage("You won!  Your score: " + player.roundScore,
+											"CPU Score: " + dealer.roundScore);
+
+	player.clearScore();
+	dealer.clearScore()
+
+	document.getElementById('new').disabled = false;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('stand').disabled = true;
+}
+
+function youLose() {
+	changeStatusMessage("You lost!  Your score: " + player.roundScore,
+											"CPU Score: " + dealer.roundScore);
+
+	player.clearScore();
+	dealer.clearScore()
+
+	document.getElementById('new').disabled = false;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('stand').disabled = true;
 }
 
 function initialDeal() {
+	clearAllHands();
+
+	//Deal initial cards
 	dealPlayerCard();
-	//dealDealerCard();
-	//dealPlayerCard();
-	//dealDealerCard();
+	dealDealerCard();
+	dealPlayerCard();
+	dealDealerBackCard();
+
+	//show score
+	changeStatusMessage("Current Score: " + player.roundScore,
+											"CPU Score: " + dealer.roundScore);
+	//disable New Game button
+	document.getElementById('new').disabled = true;
+	document.getElementById('hit').disabled = false;
+	document.getElementById('stand').disabled = false;
 }
 
-initialDeal();
+firstTimeSetup();

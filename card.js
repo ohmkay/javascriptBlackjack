@@ -13,7 +13,7 @@ class Card {
 			if(rank === 'J' || rank === 'Q' || rank === 'K') {
 				return 10;
 			} else if(rank === 'A') {
-				return 0;
+				return 11;
 			} else {
 				return parseInt(rank);
 			}
@@ -34,6 +34,12 @@ class Card {
 		this.isAce = (function (rank) {
 			return rank === 'A' ? true : false;
 		})(rank);
+	}
+
+	getCardImage() {
+		var img = document.createElement("img");
+		img.src = this.imagePath;
+		return img;
 	}
 
 }
