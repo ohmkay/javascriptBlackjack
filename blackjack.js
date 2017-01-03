@@ -17,7 +17,7 @@ function clearAllHands() {
 
 		var ulDealer = document.getElementById('dealerCards');
 		var cardSlotsDealer = ulDealer.querySelectorAll(":scope > li");
-		console.log(dealer.cards.length + " " + player.cards.length);
+		//console.log(dealer.cards.length + " " + player.cards.length);
 		for(var i = 0; i < dealer.cards.length; i++) {
 			cardSlotsDealer[i].removeChild(cardSlotsDealer[i].childNodes[0]);
 		}
@@ -74,8 +74,6 @@ function intializeCards(deck) {
 	return deck;
 }
 
-deck = intializeCards(deck);
-
 function getRandomCardFromDeck() {
 	var returnedCard = deck[Math.floor(Math.random() * deck.length)];
 	removeCardFromDeck(returnedCard);
@@ -104,6 +102,7 @@ function dealDealerCard() {
 	var card  = getRandomCardFromDeck();
 	dealer.addCard(card);
 	dealer.addScore(card.points);
+	console.log("dealer points: " + dealer.roundScore + " " + card.points);
 
 	var ul = document.getElementById('dealerCards');
 	var cardSlots = ul.querySelectorAll(":scope > li");
@@ -122,10 +121,12 @@ function dealDealerBackCard() {
 function removeDealerBackCard() {
 	var ul = document.getElementById('dealerCards');
 	var cardSlots = ul.querySelectorAll(":scope > li");
+	console.log(cardSlots[dealer.cards.length].childNodes[0]);
+	console.log(cardSlots[dealer.cards.length]);
 	cardSlots[dealer.cards.length].removeChild(
 										cardSlots[dealer.cards.length].childNodes[0]);
 
-	//console.log(cardSlots[dealer.cards.length].childNodes[0]);
+
 }
 
 function hitCard() {
@@ -133,13 +134,14 @@ function hitCard() {
 
 	if(player.roundScore > 21) {
 		changeStatusMessage("You went over 21!  Your Score: " + player.roundScore,
-												"CPU Score: " + dealer.roundScore);
+			"CPU Score: " + dealer.roundScore);
 		youLose();
+		removeDealerBackCard();
 	} else if(player.roundScore <= 21 && player.cards.length === 5) {
 		youWin();
 	} else {
 		changeStatusMessage("Current Score: " + player.roundScore,
-												"CPU Score: " + dealer.roundScore);
+			"CPU Score: " + dealer.roundScore);
 	}
 }
 
@@ -164,7 +166,7 @@ function stand() {
 
 function youWin() {
 	changeStatusMessage("You won!  Your score: " + player.roundScore,
-											"CPU Score: " + dealer.roundScore);
+		"CPU Score: " + dealer.roundScore);
 
 	player.clearScore();
 	dealer.clearScore()
@@ -176,7 +178,7 @@ function youWin() {
 
 function youLose() {
 	changeStatusMessage("You lost!  Your score: " + player.roundScore,
-											"CPU Score: " + dealer.roundScore);
+		"CPU Score: " + dealer.roundScore);
 
 	player.clearScore();
 	dealer.clearScore()
@@ -189,6 +191,8 @@ function youLose() {
 function initialDeal() {
 	clearAllHands();
 
+	deck = intializeCards(deck);
+
 	//Deal initial cards
 	dealPlayerCard();
 	dealDealerCard();
@@ -197,7 +201,7 @@ function initialDeal() {
 
 	//show score
 	changeStatusMessage("Current Score: " + player.roundScore,
-											"CPU Score: " + dealer.roundScore);
+		"CPU Score: " + dealer.roundScore);
 	//disable New Game button
 	document.getElementById('new').disabled = true;
 	document.getElementById('hit').disabled = false;
