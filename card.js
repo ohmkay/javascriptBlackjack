@@ -8,6 +8,7 @@ class Card {
 		this.rank = rank;
 		this.suite = suite;
 
+		//calculates points based on rank
 		this.points = (function (rank) {
 			if(rank === 'J' || rank === 'Q' || rank === 'K') {
 				return 10;
@@ -23,11 +24,16 @@ class Card {
 			return rank + suite;
 		})(rank, suite);
 
-		//set image path to name + .gif
+		//set image path to name
 		var name = this.name;
 		this.imagePath = (function (name) {
-			return name + '.gif';
+			return './cards/' + name + '.gif';
 		})(name);
+
+		//checks if Ace for scoring
+		this.isAce = (function (rank) {
+			return rank === 'A' ? true : false;
+		})(rank);
 	}
-	
+
 }

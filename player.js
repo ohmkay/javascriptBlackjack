@@ -1,14 +1,14 @@
-//Player and Dealer class
+//Player and Dealer classe
 
 //************
 //Player Class
 //************
 class Player {
 
-	constructor (moneyTotal, currentBet, roundScore) {
-		this.moneyTotal = moneyTotal;
-		this.currentBet = currentBet;
-		this.roundScore = roundScore;
+	constructor() {
+		this.moneyTotal = 100;
+		this.currentBet = 10;
+		this.roundScore = 0;
 		this.cards = [];
 	}
 
@@ -34,8 +34,8 @@ class Player {
 //************
 class Dealer {
 
-	constructor (roundScore) {
-		this.roundScore = roundScore;
+	constructor() {
+		this.roundScore = 0;
 		this.cards = [];
 	}
 
