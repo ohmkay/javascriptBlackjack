@@ -139,6 +139,7 @@ function hitCard() {
 		removeDealerBackCard();
 	} else if(player.roundScore <= 21 && player.cards.length === 5) {
 		youWin();
+		removeDealerBackCard();
 	} else {
 		changeStatusMessage("Current Score: " + player.roundScore,
 			"CPU Score: " + dealer.roundScore);
