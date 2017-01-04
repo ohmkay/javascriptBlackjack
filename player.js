@@ -1,5 +1,3 @@
-//Player and Dealer classe
-
 //************
 //Player Class
 //************
@@ -27,31 +25,13 @@ class Player {
 	addCard(card) {
 		this.cards.push(card);
 	}
-}
 
-//************
-//Dealer Class
-//************
-class Dealer {
-
-	constructor() {
-		this.roundScore = 0;
-		this.cards = [];
+	recalculateAceScore() {
+		for(var i = 0; i < this.cards.length; i++) {
+				if(this.cards[i].isAce && this.cards[i].points !== 11) {
+					return this.cards[i].points === 1;
+				}
+		}
 	}
 
-	clearScore() {
-		this.roundScore = 0;
-	}
-
-	clearCards() {
-		this.cards = [];
-	}
-
-	addScore(score) {
-		this.roundScore += score;
-	}
-
-	addCard(card) {
-		this.cards.push(card);
-	}
 }

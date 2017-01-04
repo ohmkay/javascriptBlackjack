@@ -3,7 +3,13 @@
 
 var deck = [];
 var player = new Player();
-var dealer = new Dealer();
+var dealer = new Player();
+
+
+function changeStatusMessage(message1, message2) {
+	var status = document.getElementById('statusMessage');
+	status.innerHTML = message1 + '<br />' + message2;
+}
 
 function changeStatusMessage(message1, message2) {
 	var status = document.getElementById('statusMessage');
@@ -17,7 +23,7 @@ function clearAllHands() {
 
 		var ulDealer = document.getElementById('dealerCards');
 		var cardSlotsDealer = ulDealer.querySelectorAll(":scope > li");
-		//console.log(dealer.cards.length + " " + player.cards.length);
+
 		for(var i = 0; i < dealer.cards.length; i++) {
 			cardSlotsDealer[i].removeChild(cardSlotsDealer[i].childNodes[0]);
 		}
@@ -39,6 +45,7 @@ function clearAllHands() {
 
 }
 
+
 function firstTimeSetup() {
   //initial total money set to 100
   var money = document.getElementById('moneyTotal');
@@ -57,9 +64,8 @@ function firstTimeSetup() {
 	document.getElementById('hit').onclick = hitCard;
 	document.getElementById('stand').disabled = true;
 	document.getElementById('stand').onclick = stand;
-
-	//clearAllHands();
 }
+
 
 function intializeCards(deck) {
 	var suite = ['C', 'D', 'H', 'S'];
@@ -74,11 +80,13 @@ function intializeCards(deck) {
 	return deck;
 }
 
+
 function getRandomCardFromDeck() {
 	var returnedCard = deck[Math.floor(Math.random() * deck.length)];
 	removeCardFromDeck(returnedCard);
 	return returnedCard;
 }
+
 
 function removeCardFromDeck(card) {
 	const index = deck.indexOf(card);
@@ -87,6 +95,7 @@ function removeCardFromDeck(card) {
         deck.splice(index, 1);
     }
 }
+
 
 function dealPlayerCard() {
 	var card  = getRandomCardFromDeck();
@@ -98,44 +107,40 @@ function dealPlayerCard() {
 	cardSlots[player.cards.length-1].appendChild(card.getCardImage());
 }
 
+
 function dealDealerCard() {
 	var card  = getRandomCardFromDeck();
 	dealer.addCard(card);
-	dealer.addScore(card.points);
 
-	var ul = document.getElementById('dealerCards');
-	var cardSlots = ul.querySelectorAll(":scope > li");
-	cardSlots[dealer.cards.length-1].appendChild(card.getCardImage());
-}
-
-function dealDealerBackCard() {
 	var img = document.createElement("img");
-	img.src = "./cards/back.gif";
-
-	var ul = document.getElementById('dealerCards');
-	var cardSlots = ul.querySelectorAll(":scope > li");
-	cardSlots[dealer.cards.length].appendChild(img);
-}
-
-function removeDealerBackCard() {
+	img.src = "cards/back.gif"
 	var ul = document.getElementById('dealerCards');
 	var cardSlots = ul.querySelectorAll(":scope > li");
 
-	cardSlots[dealer.cards.length].removeChild(
-										cardSlots[dealer.cards.length].childNodes[0]);
+	if(dealer.cards.length === 2) {
+		card.setBackImage(true);
+		cardSlots[dealer.cards.length-1].appendChild(img);
+	} else {
+		cardSlots[dealer.cards.length-1].appendChild(card.getCardImage());
+		dealer.addScore(card.points);
+	}
 }
+
 
 function hitCard() {
 	dealPlayerCard();
+	
+	if(player.roundScore === 21) {
+		document.getElementById('hit').disabled = true;
+	}
 
 	if(player.roundScore > 21) {
 		changeStatusMessage("You went over 21!  Your Score: " + player.roundScore,
 			"CPU Score: " + dealer.roundScore);
+
 		youLose();
-		removeDealerBackCard();
 	} else if(player.roundScore <= 21 && player.cards.length === 5) {
 		youWin();
-		removeDealerBackCard();
 	} else {
 		changeStatusMessage("Current Score: " + player.roundScore,
 			"CPU Score: " + dealer.roundScore);
@@ -146,19 +151,39 @@ function stand() {
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
 
-	if(dealer.cards.length === 1){
-		removeDealerBackCard();
-	}
+	if(dealer.cards[1].getBackImage()) {
+		dealer.cards[1].setBackImage(false);
 
-	dealDealerCard();
+		var ul = document.getElementById('dealerCards');
+		var cardSlots = ul.querySelectorAll(":scope > li");
 
-	if(dealer.roundScore < player.roundScore) {
-		stand();
-	} else if (dealer.roundScore > 21) {
-		youWin();
+		cardSlots[dealer.cards.length-1].removeChild(
+											cardSlots[dealer.cards.length-1].childNodes[0]);
+
+		cardSlots[dealer.cards.length-1].appendChild(dealer.cards[1].getCardImage());
+
+		dealer.addScore(dealer.cards[1].points);
+
+		changeStatusMessage("Current Score: " + player.roundScore,
+			"CPU Score: " + dealer.roundScore);
+
 	} else {
-		youLose();
+		dealDealerCard();
 	}
+
+	//win or lose conditions
+	if(dealer.roundScore > 21) {
+		youWin();
+	}	else if(player.roundScore === 21 && dealer.roundScore === 21) {	youLose(); }
+	else if(dealer.roundScore >= player.roundScore) {	youLose(); }
+
+	if(dealer.roundScore < player.roundScore) {	stand(); }
+}
+
+function gameOver() {
+	document.getElementById('new').disabled = false;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('stand').disabled = true;
 }
 
 function youWin() {
@@ -168,10 +193,9 @@ function youWin() {
 	player.clearScore();
 	dealer.clearScore()
 
-	document.getElementById('new').disabled = false;
-	document.getElementById('hit').disabled = true;
-	document.getElementById('stand').disabled = true;
+	gameOver();
 }
+
 
 function youLose() {
 	changeStatusMessage("You lost!  Your score: " + player.roundScore,
@@ -180,10 +204,9 @@ function youLose() {
 	player.clearScore();
 	dealer.clearScore()
 
-	document.getElementById('new').disabled = false;
-	document.getElementById('hit').disabled = true;
-	document.getElementById('stand').disabled = true;
+	gameOver();
 }
+
 
 function initialDeal() {
 	clearAllHands();
@@ -194,7 +217,7 @@ function initialDeal() {
 	dealPlayerCard();
 	dealDealerCard();
 	dealPlayerCard();
-	dealDealerBackCard();
+	dealDealerCard();
 
 	//show score
 	changeStatusMessage("Current Score: " + player.roundScore,
@@ -204,5 +227,6 @@ function initialDeal() {
 	document.getElementById('hit').disabled = false;
 	document.getElementById('stand').disabled = false;
 }
+
 
 firstTimeSetup();

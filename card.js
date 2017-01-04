@@ -4,9 +4,8 @@
 
 class Card {
 
-	constructor (rank, suite) {
-		this.rank = rank;
-		this.suite = suite;
+	constructor () {
+		this.cards = [];
 
 		//calculates points based on rank
 		this.points = (function (rank) {
@@ -40,6 +39,14 @@ class Card {
 		var img = document.createElement("img");
 		img.src = this.imagePath;
 		return img;
+	}
+
+	setBackImage(bool) {
+		this.back = bool;
+	}
+
+	getBackImage() {
+		return this.back;
 	}
 
 }
