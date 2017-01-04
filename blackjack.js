@@ -102,7 +102,6 @@ function dealDealerCard() {
 	var card  = getRandomCardFromDeck();
 	dealer.addCard(card);
 	dealer.addScore(card.points);
-	console.log("dealer points: " + dealer.roundScore + " " + card.points);
 
 	var ul = document.getElementById('dealerCards');
 	var cardSlots = ul.querySelectorAll(":scope > li");
@@ -121,12 +120,9 @@ function dealDealerBackCard() {
 function removeDealerBackCard() {
 	var ul = document.getElementById('dealerCards');
 	var cardSlots = ul.querySelectorAll(":scope > li");
-	console.log(cardSlots[dealer.cards.length].childNodes[0]);
-	console.log(cardSlots[dealer.cards.length]);
+
 	cardSlots[dealer.cards.length].removeChild(
 										cardSlots[dealer.cards.length].childNodes[0]);
-
-
 }
 
 function hitCard() {
