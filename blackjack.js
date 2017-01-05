@@ -1,12 +1,8 @@
-//layout resource http://math.hws.edu/eck/cs271/js-work/Blackjack.html
-//github image resource https://github.com/BlindPacemaker/Blackjack
-
 var deck = new Deck();
 var player = new Player('player');
 var dealer = new Player('dealer');
 
 function changeStatusMessage(selectMessage) {
-
 	var outputMessage = '';
 
 	switch(selectMessage) {
@@ -59,7 +55,7 @@ function firstTimeSetup() {
 
   //initial bet set to 10
   var bet = document.getElementById('bet');
-  bet.value = 10;
+  bet.value = player.bet;
 
   //set starting status message
 	var status = document.getElementById('statusMessage');
@@ -103,10 +99,26 @@ function gameOver() {
 	document.getElementById('new').disabled = false;
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
+	document.getElementById('bet').disabled = false;
+
+	var money = document.getElementById('moneyTotal');
+  money.removeChild(money.childNodes[0]);
+	console.log(player.moneyTotal);
+	money.appendChild(document.createTextNode(player.moneyTotal.toString()));
+
+	if(player.moneyTotal <= 0){
+		document.getElementById('new').disabled = true;
+	}
+
+  //initial bet set
+  var bet = document.getElementById('bet');
+  bet.nodeValue = player.bet;
 }
 
 function youWin() {
 	changeStatusMessage('win');
+
+	player.moneyTotal += parseInt(player.bet);
 
 	player.clearScore();
 	dealer.clearScore()
@@ -118,6 +130,8 @@ function youWin() {
 function youLose() {
 	changeStatusMessage('lose');
 
+	player.moneyTotal -= parseInt(player.bet);
+
 	player.clearScore();
 	dealer.clearScore();
 
@@ -126,6 +140,10 @@ function youLose() {
 
 
 function initialDeal() {
+	document.getElementById('bet').disabled = true;
+	player.bet = document.getElementById('bet').value;
+	console.log(player.bet);
+
 	player.clearHand();
 	dealer.clearHand();
 

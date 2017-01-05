@@ -6,7 +6,7 @@ class Player {
 	constructor(name) {
 		this.name = name;
 		this.moneyTotal = 100;
-		this.currentBet = 10;
+		this.bet = 10;
 		this.roundScore = 0;
 		this.hand = [];
 	}
@@ -68,9 +68,7 @@ class Player {
 	handHasAce() {
 		for(var i = 0; i < this.hand.length; i++) {
 			if(this.hand[i].isAce && this.hand[i].points === 11) {
-				console.log(this.roundScore);
 				this.roundScore = this.roundScore - 10;
-				console.log("after minus 10" + this.roundScore);
 				this.hand[i].points = 1;
 				this.hand[i].isAce === false;
 				return true;
