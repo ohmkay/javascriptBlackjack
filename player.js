@@ -62,16 +62,21 @@ class Player {
 											cardSlots[this.hand.length-1].childNodes[0]);
 
 		cardSlots[this.hand.length-1].appendChild(this.hand[1].getCardImage());
-		console.log(this.hand[1].points + " FROM REPLACE BACK IMAGE");
 		this.addScore(this.hand[1].points);
 	}
 
-	recalculateAceScore() {
+	handHasAce() {
 		for(var i = 0; i < this.hand.length; i++) {
-				if(this.hand[i].isAce && this.hand[i].points !== 11) {
-					return this.hand[i].points === 1;
-				}
+			if(this.hand[i].isAce && this.hand[i].points === 11) {
+				console.log(this.roundScore);
+				this.roundScore = this.roundScore - 10;
+				console.log("after minus 10" + this.roundScore);
+				this.hand[i].points = 1;
+				this.hand[i].isAce === false;
+				return true;
+			}
 		}
+		return false;
 	}
 
 }

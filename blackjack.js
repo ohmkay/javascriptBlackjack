@@ -29,11 +29,19 @@ function changeStatusMessage(selectMessage) {
 function checkWinCondition() {
 
 	if(player.roundScore > 21) {
-		youLose();
+		if (player.handHasAce() === false) {
+			youLose();
+		} else {
+			checkWinCondition();
+		}
 	} else if(player.roundScore <= 21 && player.hand.length === 5) {
 		youWin();
 	} else if(dealer.roundScore > 21) {
-		youWin();
+		if(dealer.handHasAce() === false) {
+			youWin();
+		} else {
+			checkWinCondition();
+		}
 	}	else if(player.roundScore === 21 && dealer.roundScore === 21) {
 		youLose();
 	}	else if(dealer.roundScore >= player.roundScore) {
@@ -78,7 +86,7 @@ function hit() {
 function stand() {
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
-	console.log(dealer.roundScore);
+
 	if(dealer.hand[1].getBackImage()) {
 		dealer.hand[1].setBackImage(false);
 		dealer.replaceBackImage(dealer.hand[1]);
@@ -121,7 +129,7 @@ function initialDeal() {
 	player.clearHand();
 	dealer.clearHand();
 
-	//deck = intializeCards(deck);
+	deck.initializeDeck();
 
 	//Deal initial hand
 	player.addCard(deck.dealCard());

@@ -6,21 +6,18 @@ class Deck {
 
 	constructor () {
 		this.back = false;
+		this.cards = [];
+	}
 
-		//calculates points based on rank
-		this.cards = (function () {
-			var deck = [];
-			var suite = ['C', 'D', 'H', 'S'];
-			var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+	initializeDeck() {
+		var suite = ['C', 'D', 'H', 'S'];
+		var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
-			for(var i = 0; i < rank.length; i++) {
-				for(var j = 0; j < suite.length; j++) {
-					deck.push(new Card(rank[i], suite[j]));
-				}
+		for(var i = 0; i < rank.length; i++) {
+			for(var j = 0; j < suite.length; j++) {
+				this.cards.push(new Card(rank[i], suite[j]));
 			}
-
-			return deck;
-		})();
+		}
 	}
 
 	removeCardFromDeck(card) {
