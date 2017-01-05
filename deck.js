@@ -32,7 +32,7 @@ class Deck {
 	}
 
 	getRandomCard() {
-		var returnedCard = this.cards[Math.floor(Math.random() * deck.length)];
+		var returnedCard = this.cards[Math.floor(Math.random() * this.cards.length)];
 		this.removeCardFromDeck(returnedCard);
 		return returnedCard;
 	}

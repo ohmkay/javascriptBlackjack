@@ -8,7 +8,7 @@ class Player {
 		this.moneyTotal = 100;
 		this.currentBet = 10;
 		this.roundScore = 0;
-		this.cards = [];
+		this.hand = [];
 	}
 
 	clearScore() {
@@ -16,7 +16,7 @@ class Player {
 	}
 
 	clearCards() {
-		this.cards = [];
+		this.hand = [];
 	}
 
 	addScore(score) {
@@ -24,13 +24,30 @@ class Player {
 	}
 
 	addCard(card) {
-		this.cards.push(card);
+		this.hand.push(card);
+		this.appendCardImage(card);
+	}
+
+	appendCardImage(card) {
+		var ul = document.getElementById(this.name);
+		var cardSlots = ul.querySelectorAll(":scope > li");
+
+		if(this.name === 'dealer' && this.hand.length === 2) {
+			card.setBackImage(true);
+
+			var img = document.createElement("img");
+			img.src = "hand/back.gif"
+			cardSlots[this.hand.length-1].appendChild(img);
+		} else {
+			cardSlots[this.hand.length-1].appendChild(card.getCardImage());
+			this.addScore(card.points);
+		}
 	}
 
 	recalculateAceScore() {
-		for(var i = 0; i < this.cards.length; i++) {
-				if(this.cards[i].isAce && this.cards[i].points !== 11) {
-					return this.cards[i].points === 1;
+		for(var i = 0; i < this.hand.length; i++) {
+				if(this.hand[i].isAce && this.hand[i].points !== 11) {
+					return this.hand[i].points === 1;
 				}
 		}
 	}

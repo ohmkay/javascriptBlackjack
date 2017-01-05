@@ -16,7 +16,7 @@ body {
   float: right;
 }
 
-#dealerCards li, #yourCards li{
+#dealer li, #player li{
   list-style-type: none;
   display: inline;
 }

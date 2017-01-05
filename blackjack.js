@@ -17,7 +17,7 @@ function checkWinCondition() {
 
 	if(player.roundScore > 21) {
 		youLose();
-	} else if(player.roundScore <= 21 && player.cards.length === 5) {
+	} else if(player.roundScore <= 21 && player.hand.length === 5) {
 		youWin();
 	}
 
@@ -35,22 +35,22 @@ function checkWinCondition() {
 //remove all img src tags from player and dealer <li>s
 function clearAllHands() {
 
-	if(player.cards.length !== 0) {
+	if(player.hand.length !== 0) {
 
 		var ulDealer = document.getElementById('dealerCards');
 		var cardSlotsDealer = ulDealer.querySelectorAll(":scope > li");
 
-		for(var i = 0; i < dealer.cards.length; i++) {
+		for(var i = 0; i < dealer.hand.length; i++) {
 			cardSlotsDealer[i].removeChild(cardSlotsDealer[i].childNodes[0]);
 		}
 
 	}
 
-	if(dealer.cards.length !== 0) {
+	if(dealer.hand.length !== 0) {
 
 		var ulPlayer = document.getElementById('yourCards');
 		var cardSlotsPlayer = ulPlayer.querySelectorAll(":scope > li");
-		for(var i = 0; i < player.cards.length; i++) {
+		for(var i = 0; i < player.hand.length; i++) {
 			cardSlotsPlayer[i].removeChild(cardSlotsPlayer[i].childNodes[0]);
 		}
 
@@ -83,23 +83,6 @@ function firstTimeSetup() {
 	document.getElementById('stand').onclick = stand;
 }
 
-function appendCardImage(card) {
-	var ul = document.getElementById(this.name);
-	var cardSlots = ul.querySelectorAll(":scope > li");
-
-	if(this.name === 'dealer' && this.cards.length === 2) {
-		card.setBackImage(true);
-
-		var img = document.createElement("img");
-		img.src = "cards/back.gif"
-		cardSlots[this.cards.length-1].appendChild(img);
-	} else {
-		cardSlots[this.cards.length-1].appendChild(card.getCardImage());
-		this.addScore(card.points);
-	}
-}
-
-
 function hitCard() {
 	dealPlayerCard();
 
@@ -113,22 +96,21 @@ function hitCard() {
 function stand() {
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
-	
-	if(dealer.cards[1].getBackImage()) {
-		dealer.cards[1].setBackImage(false);
+
+	if(dealer.hand[1].getBackImage()) {
+		dealer.hand[1].setBackImage(false);
 
 		var ul = document.getElementById('dealerCards');
 		var cardSlots = ul.querySelectorAll(":scope > li");
 
-		cardSlots[dealer.cards.length-1].removeChild(
-											cardSlots[dealer.cards.length-1].childNodes[0]);
+		cardSlots[dealer.hand.length-1].removeChild(
+											cardSlots[dealer.hand.length-1].childNodes[0]);
 
-		cardSlots[dealer.cards.length-1].appendChild(dealer.cards[1].getCardImage());
+		cardSlots[dealer.hand.length-1].appendChild(dealer.hand[1].getCardImage());
 
-		dealer.addScore(dealer.cards[1].points);
+		dealer.addScore(dealer.hand[1].points);
 
-		changeStatusMessage("Current Score: " + player.roundScore,
-			"CPU Score: " + dealer.roundScore);
+		changeStatusMessage();
 
 	} else {
 		dealDealerCard();
@@ -169,11 +151,13 @@ function initialDeal() {
 
 	//deck = intializeCards(deck);
 
-	//Deal initial cards
-	player.addCard(deck.getRandomCard());
-	dealer.addCard(deck.getRandomCard());
-	player.addCard(deck.getRandomCard());
-	dealer.addCard(deck.getRandomCard());
+	//Deal initial hand
+	var newCard = deck.dealCard();
+	console.log(newCard.imagePath);
+	player.addCard(deck.dealCard());
+	dealer.addCard(deck.dealCard());
+	player.addCard(deck.dealCard());
+	dealer.addCard(deck.dealCard());
 
 	//show score
 	changeStatusMessage();
