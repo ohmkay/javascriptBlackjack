@@ -4,7 +4,9 @@
 
 class Card {
 
-	constructor () {
+	constructor (rank, suite) {
+		this.rank = rank;
+		this.suite = suite;
 		this.cards = [];
 
 		//calculates points based on rank

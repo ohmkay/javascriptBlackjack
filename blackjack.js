@@ -5,12 +5,6 @@ var deck = [];
 var player = new Player();
 var dealer = new Player();
 
-
-function changeStatusMessage(message1, message2) {
-	var status = document.getElementById('statusMessage');
-	status.innerHTML = message1 + '<br />' + message2;
-}
-
 function changeStatusMessage(message1, message2) {
 	var status = document.getElementById('statusMessage');
 	status.innerHTML = message1 + '<br />' + message2;
@@ -129,7 +123,7 @@ function dealDealerCard() {
 
 function hitCard() {
 	dealPlayerCard();
-	
+
 	if(player.roundScore === 21) {
 		document.getElementById('hit').disabled = true;
 	}
