@@ -4,8 +4,9 @@
 
 class Card {
 
-	constructor () {
-		this.cards = [];
+	constructor (rank, suite) {
+		this.rank = rank;
+		this.suite = suite;
 
 		//calculates points based on rank
 		this.points = (function (rank) {
@@ -26,7 +27,7 @@ class Card {
 		//set image path to name
 		var name = this.name;
 		this.imagePath = (function (name) {
-			return './cards/' + name + '.gif';
+			return 'cards/' + name + '.gif';
 		})(name);
 
 		//checks if Ace for scoring
@@ -41,8 +42,8 @@ class Card {
 		return img;
 	}
 
-	setBackImage(bool) {
-		this.back = bool;
+	setBackImage(isBack) {
+		this.back = isBack;
 	}
 
 	getBackImage() {

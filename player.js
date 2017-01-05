@@ -3,7 +3,8 @@
 //************
 class Player {
 
-	constructor() {
+	constructor(name) {
+		this.name = name;
 		this.moneyTotal = 100;
 		this.currentBet = 10;
 		this.roundScore = 0;
