@@ -2,10 +2,9 @@ body {
   background-color: #5F9EA0;
 }
 
-#main {
+#container {
   width: 70%;
   margin: auto;
-  display: block;
 }
 
 #divmoney {
