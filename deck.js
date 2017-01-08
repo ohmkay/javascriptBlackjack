@@ -16,6 +16,7 @@ class Deck {
 		for(var i = 0; i < rank.length; i++) {
 			for(var j = 0; j < suite.length; j++) {
 				this.cards.push(new Card(rank[i], suite[j]));
+				console.log(rank[i]+ suite[j]);
 			}
 		}
 	}

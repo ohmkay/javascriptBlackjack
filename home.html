@@ -3,6 +3,10 @@
   <head>
     
     <title>Blackjack JavaScript edition</title>
+
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel = 'stylesheet' href = 'style.css'>
   </head>
@@ -30,8 +34,8 @@
 
 
       <div id = 'divmoney'>
-        <h3>You have:</h3>
-        <p id = 'moneyTotal'></p>
+        <h3>Your total pot:</h3>
+        <h2 id = 'moneyTotal'></h2>
       </div>
 
       <div id = 'divbet'>
@@ -48,14 +52,15 @@
       <p id = 'statusMessage'>Welcome to Blackjack!</p>
     </div>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-    crossorigin="anonymous">
-    </script>
     <script
       src="https://code.jquery.com/jquery-3.1.1.min.js"
       integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
       crossorigin="anonymous">
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+    crossorigin="anonymous">
     </script>
 
     <script src = './card.js'></script>

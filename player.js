@@ -11,6 +11,15 @@ class Player {
 		this.hand = [];
 	}
 
+	checkBetAgainstTotal(currentBet) {
+		if(currentBet <= this.moneyTotal) {
+			this.bet = currentBet;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	getCardSlots() {
 		var ul = document.getElementById(this.name);
 		var cardSlots = ul.querySelectorAll(":scope > li");

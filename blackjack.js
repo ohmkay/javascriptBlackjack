@@ -6,6 +6,10 @@ function changeStatusMessage(selectMessage) {
 	var outputMessage = '';
 
 	switch(selectMessage) {
+		case 'newGame':
+			outputMessage = "Your bet is: " + player.bet + "<br />" + 
+			"Press New Game to play a round with this bet.";
+			break;
 		case 'win':
 			outputMessage = "You won! <br />" + "Score: " +
 			player.roundScore + "<br />" + "CPU Score: " + dealer.roundScore;
@@ -14,8 +18,17 @@ function changeStatusMessage(selectMessage) {
 			outputMessage = "You lost! <br />" + "Score: " +
 			player.roundScore + "<br />" + "CPU Score: " + dealer.roundScore;
 			break;
+		case 'overBet':
+			outputMessage = "Place a bet that is equal or less than your total pot.";
+			break;
 		default: outputMessage = "Current Score: " + player.roundScore + "<br />" +
 			"CPU Score: " + dealer.roundScore;
+	}
+
+	if(selectMessage === 'win' || selectMessage === 'lose' && player.moneyTotal > 0) {
+		outputMessage += "<br /> Press New Game to play another round!";
+	} else if(player.moneyTotal <= 0 && selectMessage !== 'overBet') {
+		outputMessage += "<br /> Out of money!  Come back on a better day."
 	}
 
 	var status = document.getElementById('statusMessage');
@@ -53,10 +66,6 @@ function firstTimeSetup() {
   var money = document.getElementById('moneyTotal');
   money.appendChild(document.createTextNode("100"));
 
-  //initial bet set to 10
-  var bet = document.getElementById('bet');
-  bet.value = player.bet;
-
   //set starting status message
 	var status = document.getElementById('statusMessage');
 	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
@@ -67,6 +76,31 @@ function firstTimeSetup() {
 	document.getElementById('hit').onclick = hit;
 	document.getElementById('stand').disabled = true;
 	document.getElementById('stand').onclick = stand;
+
+	//set initial bet to 10 and event listener functions
+	var bet = document.getElementById("bet");
+	bet.addEventListener("focus", betFocus, true);
+	bet.addEventListener("blur", betBlur, true);
+	bet.value = player.bet;
+
+	function betFocus() {
+	    document.getElementById("bet").style.backgroundColor = "yellow"; 
+	}
+
+	function betBlur() {
+	    var bet = document.getElementById("bet"); 
+
+	    if(player.checkBetAgainstTotal(parseInt(bet.value))) {
+	    	document.getElementById('new').disabled = false;
+	    	bet.style.backgroundColor = "";
+	    	changeStatusMessage('newGame');
+	    } else {
+	    	console.log(parseInt(bet.value) + " " + player.bet);
+	    	document.getElementById('new').disabled = true;
+	    	bet.style.backgroundColor = "red";
+	    	changeStatusMessage('overBet');
+	    }
+	}
 }
 
 function hit() {
