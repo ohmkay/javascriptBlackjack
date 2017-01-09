@@ -62,16 +62,17 @@ function checkWinCondition() {
 
 
 function firstTimeSetup() {
-  //initial total money set to 100
-  var money = document.getElementById('moneyTotal');
-  money.appendChild(document.createTextNode("100"));
+  	//initial total money set to 100
+  	var money = document.getElementById('moneyTotal');
+  	money.appendChild(document.createTextNode("100"));
 
-  //set starting status message
+  	//set starting status message
 	var status = document.getElementById('statusMessage');
 	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
 
 	//setup buttons
 	document.getElementById('new').onclick = initialDeal;
+	document.getElementById('new').disabled= false;
 	document.getElementById('hit').disabled = true;
 	document.getElementById('hit').onclick = hit;
 	document.getElementById('stand').disabled = true;
@@ -136,17 +137,16 @@ function gameOver() {
 	document.getElementById('bet').disabled = false;
 
 	var money = document.getElementById('moneyTotal');
-  money.removeChild(money.childNodes[0]);
-	console.log(player.moneyTotal);
+  	money.removeChild(money.childNodes[0]);
 	money.appendChild(document.createTextNode(player.moneyTotal.toString()));
 
-	if(player.moneyTotal <= 0){
+	if(player.moneyTotal <= 0) {
 		document.getElementById('new').disabled = true;
 	}
 
-  //initial bet set
-  var bet = document.getElementById('bet');
-  bet.nodeValue = player.bet;
+  	//initial bet set
+  	var bet = document.getElementById('bet');
+  	bet.nodeValue = player.bet;
 }
 
 function youWin() {
