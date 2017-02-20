@@ -79,7 +79,7 @@ class Player {
 			if(this.hand[i].isAce && this.hand[i].points === 11) {
 				this.roundScore = this.roundScore - 10;
 				this.hand[i].points = 1;
-				this.hand[i].isAce === false;
+				this.hand[i].isAce = false;
 				return true;
 			}
 		}
