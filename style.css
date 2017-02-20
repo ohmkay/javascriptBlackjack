@@ -25,3 +25,9 @@ body {
   text-align: center;
   clear: both;
 }
+
+#new_game {
+  margin-top: 150px;
+  text-align: center;
+  clear: both;
+}

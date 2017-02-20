@@ -65,52 +65,6 @@ function checkWinCondition() {
 	}
 }
 
-// Set variables to their default state
-//
-function firstTimeSetup() {
-  	// initial total money set to 100
-  	var money = document.getElementById('moneyTotal');
-  	money.appendChild(document.createTextNode("100"));
-
-  	// set starting status message
-	var status = document.getElementById('statusMessage');
-	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
-
-	// setup buttons
-	document.getElementById('new').onclick = initialDeal;
-	document.getElementById('new').disabled= false;
-	document.getElementById('hit').disabled = true;
-	document.getElementById('hit').onclick = hit;
-	document.getElementById('stand').disabled = true;
-	document.getElementById('stand').onclick = stand;
-
-	// set initial bet to 10 and event listener functions
-	var bet = document.getElementById("bet");
-	bet.addEventListener("focus", betFocus, true);
-	bet.addEventListener("blur", betBlur, true);
-	bet.value = player.bet;
-
-	// focus on bet window color change
-	function betFocus() {
-	    document.getElementById("bet").style.backgroundColor = "yellow"; 
-	}
-
-	// checks bet before allowing player to proceed
-	function betBlur() {
-	    var bet = document.getElementById("bet"); 
-
-	    if(player.checkBetAgainstTotal(parseInt(bet.value))) {
-	    	document.getElementById('new').disabled = false;
-	    	bet.style.backgroundColor = "";
-	    	changeStatusMessage('newGame');
-	    } else {
-	    	document.getElementById('new').disabled = true;
-	    	bet.style.backgroundColor = "red";
-	    	changeStatusMessage('overBet');
-	    }
-	}
-}
-
 // Deal card to player and check win condition
 //
 function hit() {
@@ -189,6 +143,52 @@ function youLose() {
 	dealer.clearScore();
 
 	gameOver();
+}
+
+// Set variables to their default state
+//
+function firstTimeSetup() {
+  	// initial total money set to 100
+  	var money = document.getElementById('moneyTotal');
+  	money.appendChild(document.createTextNode("100"));
+
+  	// set starting status message
+	var status = document.getElementById('statusMessage');
+	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
+
+	// setup buttons
+	document.getElementById('new').onclick = initialDeal;
+	document.getElementById('new').disabled= false;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('hit').onclick = hit;
+	document.getElementById('stand').disabled = true;
+	document.getElementById('stand').onclick = stand;
+
+	// set initial bet to 10 and event listener functions
+	var bet = document.getElementById("bet");
+	bet.addEventListener("focus", betFocus, true);
+	bet.addEventListener("blur", betBlur, true);
+	bet.value = player.bet;
+
+	// focus on bet window color change
+	function betFocus() {
+	    document.getElementById("bet").style.backgroundColor = "yellow"; 
+	}
+
+	// checks bet before allowing player to proceed
+	function betBlur() {
+	    var bet = document.getElementById("bet"); 
+
+	    if(player.checkBetAgainstTotal(parseInt(bet.value))) {
+	    	document.getElementById('new').disabled = false;
+	    	bet.style.backgroundColor = "";
+	    	changeStatusMessage('newGame');
+	    } else {
+	    	document.getElementById('new').disabled = true;
+	    	bet.style.backgroundColor = "red";
+	    	changeStatusMessage('overBet');
+	    }
+	}
 }
 
 // Deal two cards to player and dealer and set UI items
