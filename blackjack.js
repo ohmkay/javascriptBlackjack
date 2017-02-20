@@ -11,7 +11,10 @@ function changeStatusMessage(selectMessage) {
 	switch(selectMessage) {
 		case 'newGame':
 			outputMessage = "Your bet is: " + player.bet + "<br />" + 
-			"Press New Game to play a round with this bet.";
+			"Press New Round to get started.";
+			break;
+		case 'newRound':
+			outputMessage = "Place a bet and hit 'New Round' to get started."
 			break;
 		case 'win':
 			outputMessage = "You won! <br />" + "Score: " +
@@ -29,9 +32,9 @@ function changeStatusMessage(selectMessage) {
 	}
 
 	if(selectMessage === 'win' || selectMessage === 'lose' && player.moneyTotal > 0) {
-		outputMessage += "<br /> Press New Game to play another round!";
+		outputMessage += "<br /> Press New Round to play another round!";
 	} else if(player.moneyTotal <= 0 && selectMessage !== 'overBet') {
-		outputMessage += "<br /> Out of money!  Come back on a better day."
+		outputMessage += "<br /> Out of money!  Press New Game to start a new pay day."
 	}
 
 	var status = document.getElementById('statusMessage');
@@ -95,21 +98,35 @@ function stand() {
 	if(dealer.roundScore < player.roundScore) {	stand(); }
 }
 
+// updates money display
+//
+function updateMoney() {
+	var money = document.getElementById('moneyTotal');
+  	money.removeChild(money.childNodes[0]);
+	money.appendChild(document.createTextNode(player.moneyTotal.toString()));
+}
+
+// sets UI items for new game
+//
+function outOfMoney() {
+	document.getElementById('new_round').disabled = true;
+	document.getElementById('new_game').disabled = false;
+	document.getElementById('hit').disabled = true;
+	document.getElementById('stand').disabled = true;
+	document.getElementById('bet').disabled = true;
+
+	updateMoney();
+}
+
 // Set UI elements for game over
 //
 function gameOver() {
-	document.getElementById('new').disabled = false;
+	document.getElementById('new_round').disabled = false;
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
 	document.getElementById('bet').disabled = false;
 
-	var money = document.getElementById('moneyTotal');
-  	money.removeChild(money.childNodes[0]);
-	money.appendChild(document.createTextNode(player.moneyTotal.toString()));
-
-	if(player.moneyTotal <= 0) {
-		document.getElementById('new').disabled = true;
-	}
+	updateMoney();
 
   	//initial bet set
   	var bet = document.getElementById('bet');
@@ -135,14 +152,19 @@ function youWin() {
 // Set UI elements for player losing
 //
 function youLose() {
-	changeStatusMessage('lose');
-
 	player.moneyTotal -= parseInt(player.bet);
+
+	changeStatusMessage('lose');
 
 	player.clearScore();
 	dealer.clearScore();
 
-	gameOver();
+	if (player.moneyTotal <= 0) {
+		outOfMoney();
+	} else {
+		gameOver();
+	}
+	
 }
 
 // Set variables to their default state
@@ -157,18 +179,31 @@ function firstTimeSetup() {
 	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
 
 	// setup buttons
-	document.getElementById('new').onclick = initialDeal;
-	document.getElementById('new').disabled= false;
+	document.getElementById('new_game').disabled = false;
 	document.getElementById('hit').disabled = true;
 	document.getElementById('hit').onclick = hit;
 	document.getElementById('stand').disabled = true;
 	document.getElementById('stand').onclick = stand;
+	document.getElementById('new_round').disabled = true;
+	document.getElementById('new_round').onclick = initialDeal;
+
+	document.getElementById('new_game').onclick = function() {
+
+		document.getElementById('new_game').disabled = true;
+		document.getElementById('new_round').disabled = false;
+		document.getElementById("bet").disabled = false;
+
+		player.moneyTotal = 100;
+		changeStatusMessage('newRound');
+		updateMoney();
+	};
 
 	// set initial bet to 10 and event listener functions
 	var bet = document.getElementById("bet");
 	bet.addEventListener("focus", betFocus, true);
 	bet.addEventListener("blur", betBlur, true);
 	bet.value = player.bet;
+	bet.disabled = true;
 
 	// focus on bet window color change
 	function betFocus() {
@@ -180,11 +215,11 @@ function firstTimeSetup() {
 	    var bet = document.getElementById("bet"); 
 
 	    if(player.checkBetAgainstTotal(parseInt(bet.value))) {
-	    	document.getElementById('new').disabled = false;
+	    	document.getElementById('new_round').disabled = false;
 	    	bet.style.backgroundColor = "";
-	    	changeStatusMessage('newGame');
+	    	changeStatusMessage('newRound');
 	    } else {
-	    	document.getElementById('new').disabled = true;
+	    	document.getElementById('new_round').disabled = true;
 	    	bet.style.backgroundColor = "red";
 	    	changeStatusMessage('overBet');
 	    }
@@ -212,7 +247,8 @@ function initialDeal() {
 	changeStatusMessage();
 
 	//disable New Game button
-	document.getElementById('new').disabled = true;
+	document.getElementById('new_round').disabled = true;
+	document.getElementById('new_game').disabled = true;
 	document.getElementById('hit').disabled = false;
 	document.getElementById('stand').disabled = false;
 }
