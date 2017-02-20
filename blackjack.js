@@ -1,7 +1,10 @@
+// Instantiate Deck and Players
 var deck = new Deck();
 var player = new Player('player');
 var dealer = new Player('dealer');
 
+// Changes the status message dependent on action
+//
 function changeStatusMessage(selectMessage) {
 	var outputMessage = '';
 
@@ -35,6 +38,8 @@ function changeStatusMessage(selectMessage) {
 	status.innerHTML = outputMessage;
 }
 
+// Checks to see if the player has won or lost
+//
 function checkWinCondition() {
 
 	if(player.roundScore > 21) {
@@ -60,17 +65,18 @@ function checkWinCondition() {
 	}
 }
 
-
+// Set variables to their default state
+//
 function firstTimeSetup() {
-  	//initial total money set to 100
+  	// initial total money set to 100
   	var money = document.getElementById('moneyTotal');
   	money.appendChild(document.createTextNode("100"));
 
-  	//set starting status message
+  	// set starting status message
 	var status = document.getElementById('statusMessage');
 	status.innerHTML = "Welcome to Blackjack!", "Press New Game to get Started.";
 
-	//setup buttons
+	// setup buttons
 	document.getElementById('new').onclick = initialDeal;
 	document.getElementById('new').disabled= false;
 	document.getElementById('hit').disabled = true;
@@ -78,16 +84,18 @@ function firstTimeSetup() {
 	document.getElementById('stand').disabled = true;
 	document.getElementById('stand').onclick = stand;
 
-	//set initial bet to 10 and event listener functions
+	// set initial bet to 10 and event listener functions
 	var bet = document.getElementById("bet");
 	bet.addEventListener("focus", betFocus, true);
 	bet.addEventListener("blur", betBlur, true);
 	bet.value = player.bet;
 
+	// focus on bet window color change
 	function betFocus() {
 	    document.getElementById("bet").style.backgroundColor = "yellow"; 
 	}
 
+	// checks bet before allowing player to proceed
 	function betBlur() {
 	    var bet = document.getElementById("bet"); 
 
@@ -96,7 +104,6 @@ function firstTimeSetup() {
 	    	bet.style.backgroundColor = "";
 	    	changeStatusMessage('newGame');
 	    } else {
-	    	console.log(parseInt(bet.value) + " " + player.bet);
 	    	document.getElementById('new').disabled = true;
 	    	bet.style.backgroundColor = "red";
 	    	changeStatusMessage('overBet');
@@ -104,6 +111,8 @@ function firstTimeSetup() {
 	}
 }
 
+// Deal card to player and check win condition
+//
 function hit() {
 	player.addCard(deck.dealCard());
 
@@ -114,6 +123,8 @@ function hit() {
 	checkWinCondition();
 }
 
+// Deal cards to dealer until >= player's score
+//
 function stand() {
 	document.getElementById('hit').disabled = true;
 	document.getElementById('stand').disabled = true;
@@ -130,6 +141,8 @@ function stand() {
 	if(dealer.roundScore < player.roundScore) {	stand(); }
 }
 
+// Set UI elements for game over
+//
 function gameOver() {
 	document.getElementById('new').disabled = false;
 	document.getElementById('hit').disabled = true;
@@ -149,6 +162,8 @@ function gameOver() {
   	bet.nodeValue = player.bet;
 }
 
+// Set UI elements for player winning
+//
 function youWin() {
 	changeStatusMessage('win');
 
@@ -160,7 +175,8 @@ function youWin() {
 	gameOver();
 }
 
-
+// Set UI elements for player losing
+//
 function youLose() {
 	changeStatusMessage('lose');
 
@@ -172,7 +188,8 @@ function youLose() {
 	gameOver();
 }
 
-
+// Deal two cards to player and dealer and set UI items
+//
 function initialDeal() {
 	document.getElementById('bet').disabled = true;
 	player.bet = document.getElementById('bet').value;

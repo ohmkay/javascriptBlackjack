@@ -36,16 +36,22 @@ class Card {
 		})(rank);
 	}
 
+	// Find img tag in html and set path
+	//
 	getCardImage() {
 		var img = document.createElement("img");
 		img.src = this.imagePath;
 		return img;
 	}
 
+	// Sets card to show back image
+	//
 	setBackImage(isBack) {
 		this.back = isBack;
 	}
 
+	// Return boolean to see if card is showing back
+	//
 	getBackImage() {
 		return this.back;
 	}

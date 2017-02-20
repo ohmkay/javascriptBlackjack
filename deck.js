@@ -5,10 +5,11 @@
 class Deck {
 
 	constructor () {
-		this.back = false;
 		this.cards = [];
 	}
 
+	// Populate deck array
+	//
 	initializeDeck() {
 		var suite = ['C', 'D', 'H', 'S'];
 		var rank = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -20,6 +21,8 @@ class Deck {
 		}
 	}
 
+	// Remove a card from the deck
+	//
 	removeCardFromDeck(card) {
 		const index = this.cards.indexOf(card);
 
@@ -28,12 +31,16 @@ class Deck {
 			}
 	}
 
+	// Get a random card from the deck and call to remove it
+	//
 	getRandomCard() {
 		var returnedCard = this.cards[Math.floor(Math.random() * this.cards.length)];
 		this.removeCardFromDeck(returnedCard);
 		return returnedCard;
 	}
 
+	// Gets a random card and calls to remove it
+	//
 	dealCard() {
 		var card = deck.getRandomCard();
 		return card;
