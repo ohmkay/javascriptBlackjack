@@ -25,6 +25,7 @@ class Deck {
 	//
 	removeCardFromDeck(card) {
 		const index = this.cards.indexOf(card);
+		console.log(index.toString());
 
 			if (index !== -1) {
 			    this.cards.splice(index, 1);
@@ -36,6 +37,7 @@ class Deck {
 	getRandomCard() {
 		var returnedCard = this.cards[Math.floor(Math.random() * this.cards.length)];
 		this.removeCardFromDeck(returnedCard);
+		console.log(returnedCard.rank+ " " + returnedCard.suite);
 		return returnedCard;
 	}
 

@@ -160,6 +160,9 @@ function gameOver() {
   	//initial bet set
   	var bet = document.getElementById('bet');
   	bet.nodeValue = player.bet;
+
+	//re-initialize deck
+	deck = new Deck();
 }
 
 // Set UI elements for player winning
@@ -193,7 +196,6 @@ function youLose() {
 function initialDeal() {
 	document.getElementById('bet').disabled = true;
 	player.bet = document.getElementById('bet').value;
-	console.log(player.bet);
 
 	player.clearHand();
 	dealer.clearHand();

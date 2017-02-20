@@ -11,6 +11,8 @@ class Player {
 		this.hand = [];
 	}
 
+	// Check bet against total pot
+	//
 	checkBetAgainstTotal(currentBet) {
 		if(currentBet <= this.moneyTotal) {
 			this.bet = currentBet;
@@ -20,6 +22,8 @@ class Player {
 		}
 	}
 
+	// Find all locations on the DOM where card can be inserted
+	//
 	getCardSlots() {
 		var ul = document.getElementById(this.name);
 		var cardSlots = ul.querySelectorAll(":scope > li");
@@ -27,10 +31,14 @@ class Player {
 		return cardSlots;
 	}
 
+	// Clears the current round score
+	//
 	clearScore() {
 		this.roundScore = 0;
 	}
 
+	// Clear the hand of all cards
+	//
 	clearHand() {
 		var cardSlots = this.getCardSlots();
 
@@ -40,15 +48,21 @@ class Player {
 		this.hand = [];
 	}
 
+	// Add new card's score to round score
+	//
 	addScore(score) {
 		this.roundScore += score;
 	}
 
+	// Adds a card to the players hand
+	//
 	addCard(card) {
 		this.hand.push(card);
 		this.appendCardImage(card);
 	}
 
+	// Concatenate's card name with image path
+	//
 	appendCardImage(card) {
 		var cardSlots = this.getCardSlots();
 
@@ -64,6 +78,8 @@ class Player {
 		}
 	}
 
+	// Replace back images with front images
+	//
 	replaceBackImage(card) {
 		var cardSlots = this.getCardSlots();
 
@@ -74,6 +90,9 @@ class Player {
 		this.addScore(this.hand[1].points);
 	}
 
+	// If the hand has an ace, set the score to 1
+	// This is called when the round score is over 21
+	//
 	handHasAce() {
 		for(var i = 0; i < this.hand.length; i++) {
 			if(this.hand[i].isAce && this.hand[i].points === 11) {
